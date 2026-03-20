@@ -1,0 +1,4 @@
+{ "metadatos": { "dispositivo": "Samsung Tab S3", "orientacion": "Portrait", "pantalla_px": {
+"ancho": 1536, "alto": 2048 }, "timestamp_ms": 1710584200123 }, "puntos_clave": { "nariz":
+{"x": 0.50, "y": 0.20, "z": -0.15}, "hombro_d": {"x": 0.40, "y": 0.35, "z": -0.05}, "codo_d": {"x":
+0.35, "y": 0.50, "z": -0.08}, "muñeca_d": {"x": 0.30, "y": 0.65, "z": -0.12} } }

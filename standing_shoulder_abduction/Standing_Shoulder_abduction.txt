@@ -1,0 +1,32 @@
+Etiquetas posibles dentro de errores_detectados:
+
+rango_abduccion_insuficiente
+inclinacion_excesiva_tronco
+elevacion_escapular_excesiva
+descenso_de_codo_o_muneca
+asimetria_derecha_izquierda
+velocidad_angular_irregular
+Mapeo: Standing_Shoulder_Abduction.py:82, Standing_Shoulder_Abduction.py:83, Standing_Shoulder_Abduction.py:84, Standing_Shoulder_Abduction.py:85, Standing_Shoulder_Abduction.py:86, Standing_Shoulder_Abduction.py:87
+Reglas para activar cada error:
+
+max_shoulder_angle_deg < 75
+trunk_tilt_p95_deg > 12
+shoulder_elevation_p95 > 0.18
+wrist_above_elbow_mean < -0.02
+symmetry_p95_deg > 18
+velocity_std_deg > 4.5
+Referencias: Standing_Shoulder_Abduction.py:843, Standing_Shoulder_Abduction.py:845, Standing_Shoulder_Abduction.py:847, Standing_Shoulder_Abduction.py:849, Standing_Shoulder_Abduction.py:851, Standing_Shoulder_Abduction.py:853
+resumen_biomecanico
+Diccionario con métricas agregadas de la ventana temporal (redondeadas a 4 decimales).
+Referencia: Standing_Shoulder_Abduction.py:925
+Campos dentro de resumen_biomecanico:
+
+max_shoulder_angle_deg: ángulo máximo de abducción detectado (grados)
+mean_shoulder_angle_deg: promedio del ángulo de abducción (grados)
+trunk_tilt_p95_deg: percentil 95 de inclinación de tronco (grados)
+shoulder_elevation_p95: percentil 95 de elevación de hombro, valor normalizado (sin unidades)
+symmetry_p95_deg: percentil 95 de diferencia entre lados (grados)
+velocity_std_deg: desviación estándar de la velocidad angular (grados por frame)
+wrist_above_elbow_mean: promedio normalizado de muñeca respecto a codo
+valid_points_ratio_mean: proporción media de puntos clave válidos (0 a 1)
+Referencias: Standing_Shoulder_Abduction.py:465, Standing_Shoulder_Abduction.py:466, Standing_Shoulder_Abduction.py:467, Standing_Shoulder_Abduction.py:468, Standing_Shoulder_Abduction.py:469, Standing_Shoulder_Abduction.py:470, Standing_Shoulder_Abduction.py:471, Standing_Shoulder_Abduction.py:472
