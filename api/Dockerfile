@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-COPY api/requirements.txt /app/api/requirements.txt
+COPY requirements.txt /app/api/requirements.txt
 RUN pip install --upgrade pip && pip install -r /app/api/requirements.txt
 
 COPY . /app
