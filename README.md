@@ -1,4 +1,4 @@
-# Asistente de Rehabilitacion Fisica con IA
+# Modelo Asistente de Rehabilitacion Fisica con IA
 
 Proyecto de analisis biomecanico y clasificacion de ejercicios de rehabilitacion fisica usando el dataset UI-PRMD.
 
