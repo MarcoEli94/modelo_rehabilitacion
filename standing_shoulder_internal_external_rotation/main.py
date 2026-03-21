@@ -2,23 +2,22 @@ from ollama_client import ask_ollama, prepare_diagnosis
 
 
 def main() -> None:
-    raw_prediction = {'exercise': 'Standing Shoulder Abduction',
- 'movement_id': 9,
- 'label': 1,
- 'classification': 'incorrecta',
- 'probability_incorrect': 1.0,
- 'threshold': 0.9398,
- 'severity': 'severa',
- 'errors_detected': ['inclinacion_excesiva_tronco',
-  'descenso_de_codo_o_muneca'],
+    raw_prediction = {'exercise': 'Standing Shoulder Internal/External Rotation',
+ 'movement_id': 7,
+ 'label': 0,
+ 'classification': 'correcta',
+ 'probability_incorrect': 0.4971,
+ 'threshold': 0.8809,
+ 'severity': 'moderada',
+ 'errors_detected': [],
  'biomechanical_summary': {'max_shoulder_angle_deg': 164.7449,
   'mean_shoulder_angle_deg': 164.7449,
   'trunk_tilt_p95_deg': 33.6901,
   'shoulder_elevation_p95': 0.0,
   'symmetry_p95_deg': 0.0,
   'velocity_std_deg': 0.0,
-  'wrist_above_elbow_mean': -0.4743,
-  'valid_points_ratio_mean': 0.6667}}
+  'wrist_above_elbow_mean': 0,
+  'valid_points_ratio_mean': 0.5}}
 
     diagnosis = prepare_diagnosis(raw_prediction)
 
