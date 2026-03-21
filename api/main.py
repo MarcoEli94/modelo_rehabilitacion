@@ -119,7 +119,7 @@ def healthcheck() -> dict[str, str]:
     return {"status": "ok", "message": "Usa POST /ollama-response para pipeline API -> Ollama -> modelos"}
 
 
-@app.post("/ollama-response")
+@app.post("/get-feedback")
 def ollama_response(payload: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise HTTPException(status_code=400, detail="El body debe ser un objeto JSON.")
