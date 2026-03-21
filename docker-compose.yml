@@ -1,0 +1,28 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: rehab-ollama
+    restart: unless-stopped
+    ports:
+      - "${OLLAMA_PORT:-11434}:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: rehab-api
+    restart: unless-stopped
+    depends_on:
+      - ollama
+    env_file:
+      - .env
+    environment:
+      - OLLAMA_URL=${OLLAMA_URL}
+      - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME}
+    ports:
+      - "${API_PORT:-8000}:8000"
+
+volumes:
+  ollama_data:
