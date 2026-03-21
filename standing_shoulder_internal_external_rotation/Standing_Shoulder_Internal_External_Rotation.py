@@ -29,7 +29,7 @@ TARGET_RECALL = 0.90
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 JSON_EXAMPLE_PATH = PROJECT_DIR / "jsonEjemplo.json"
-DATASET_ROOT = PROJECT_DIR / "standing_shoulder_internal_external_rotation/standing_shoulder_internal_external_rotation_json"
+DATASET_ROOT = PROJECT_DIR / "dataset"
 ARTIFACTS_DIR = PROJECT_DIR / "standing_shoulder_internal_external_rotation/standing_shoulder_internal_external_rotation_artifacts"
 
 UI_PRMD_SPLITS = [
@@ -57,10 +57,10 @@ JOINT_ALIASES = {
     "neck": ["cuello", "neck"],
     "shoulder_r": ["hombro_d", "shoulder_r", "right_shoulder"],
     "elbow_r": ["codo_d", "elbow_r", "right_elbow"],
-    "wrist_r": ["muñeca_d", "muneca_d", "wrist_r", "right_wrist"],
+    "wrist_r": ["muneca_d", "muneca_d", "wrist_r", "right_wrist"],
     "shoulder_l": ["hombro_i", "shoulder_l", "left_shoulder"],
     "elbow_l": ["codo_i", "elbow_l", "left_elbow"],
-    "wrist_l": ["muñeca_i", "muneca_i", "wrist_l", "left_wrist"],
+    "wrist_l": ["muneca_i", "muneca_i", "wrist_l", "left_wrist"],
     "hip_r": ["cadera_d", "hip_r", "right_hip"],
     "hip_l": ["cadera_i", "hip_l", "left_hip"],
 }
@@ -209,18 +209,47 @@ def load_json_payload(json_path: Path) -> dict[str, Any]:
         return json.load(fh)
 
 
+def _normalize_frame(frame: Any, default_index: int = 0) -> dict[str, Any]:
+    """Normaliza un frame para soportar tanto puntos_clave como puntos, preservando timestamp 't'."""
+    if not isinstance(frame, dict):
+        raise TypeError(f"Frame debe ser dict, got {type(frame)}")
+    
+    result = {"frame_index": default_index}
+    
+    # Preservar timestamp si existe
+    if "t" in frame:
+        result["t"] = frame["t"]
+    
+    # Intentar puntos_clave primero, luego puntos
+    if "puntos_clave" in frame:
+        result["puntos_clave"] = frame["puntos_clave"]
+    elif "puntos" in frame:
+        result["puntos_clave"] = frame["puntos"]
+    else:
+        raise KeyError(f"Frame debe contener 'puntos_clave' o 'puntos', got {list(frame.keys())}")
+    
+    return result
+
+
 def coerce_frames(payload: Any) -> list[dict[str, Any]]:
+    """Convierte múltiples formatos JSON a lista normalizada de frames con puntos_clave."""
     if isinstance(payload, list):
-        return [frame if "puntos_clave" in frame else {"puntos_clave": frame} for frame in payload]
+        return [_normalize_frame(frame, idx) for idx, frame in enumerate(payload)]
+    
     if not isinstance(payload, dict):
         raise TypeError("El JSON debe ser una lista de frames o un objeto con puntos_clave/frames.")
+    
+    # Buscar contenedor de frames
     for key in ("frames", "ventana", "secuencia", "window"):
         if key in payload:
             frames = payload[key]
-            return [frame if "puntos_clave" in frame else {"puntos_clave": frame} for frame in frames]
-    if "puntos_clave" in payload:
-        return [payload]
-    raise KeyError("No se encontró una secuencia temporal en el JSON.")
+            return [_normalize_frame(frame, idx) for idx, frame in enumerate(frames)]
+    
+    # Si es un frame directo con puntos_clave o puntos
+    try:
+        return [_normalize_frame(payload, 0)]
+    except KeyError:
+        raise KeyError("No se encontró una secuencia temporal válida en el JSON.")
 
 
 def _default_left_side(points: dict[str, dict[str, float]]) -> dict[str, dict[str, float]]:
@@ -245,7 +274,8 @@ def generate_temporal_window_from_example(
     n_frames: int | None = None,
 ) -> tuple[list[dict[str, Any]], list[str]]:
     n_frames = n_frames or int(rng.integers(36, 60))
-    base_points = dict(payload["puntos_clave"])
+    frames = coerce_frames(payload)
+    base_points = dict(frames[0]["puntos_clave"])
     base_points.update(_default_left_side(base_points))
 
     nose = base_points[JOINT_ALIASES["nose"][0]]
@@ -670,90 +700,32 @@ def load_ui_prmd_dataset(
     return X, y, meta
 
 
-def load_real_json_dataset(dataset_root: Path = DATASET_ROOT) -> tuple[np.ndarray, np.ndarray, pd.DataFrame]:
-    records: list[dict[str, Any]] = []
-    for label_name, label in (("correct", 0), ("incorrect", 1)):
-        split_dir = dataset_root / label_name
-        if not split_dir.exists():
-            continue
-        for json_path in sorted(split_dir.glob("*.json")):
-            payload = load_json_payload(json_path)
-            frames = coerce_frames(payload)
-            window_matrix, summary = extract_biomechanical_window(frames, window_size=WINDOW_SIZE)
-            records.append(
-                {
-                    "sequence_id": json_path.stem,
-                    "subject_id": _parse_subject_id(json_path.name),
-                    "label": label,
-                    "window": window_matrix,
-                    **summary,
-                }
-            )
 
-    if not records:
-        raise FileNotFoundError(
-            "No se encontraron secuencias JSON etiquetadas en standing_shoulder_internal_external_rotation_json/."
-        )
-
-    meta = pd.DataFrame(records)
-    X = np.stack(meta.pop("window").to_list()).astype(np.float32)
-    y = meta["label"].to_numpy(dtype=np.int32)
-    return X, y, meta
-
-
-def build_bootstrap_dataset(
-    json_example_path: Path = JSON_EXAMPLE_PATH,
-    n_samples_per_class: int = 240,
-) -> tuple[np.ndarray, np.ndarray, pd.DataFrame]:
-    payload = load_json_payload(json_example_path)
-    rng = np.random.default_rng(RANDOM_STATE)
-    records: list[dict[str, Any]] = []
-
-    for label in (0, 1):
-        for idx in range(n_samples_per_class):
-            frames, active_errors = generate_temporal_window_from_example(
-                payload=payload,
-                rng=rng,
-                incorrect=bool(label),
-            )
-            window_matrix, summary = extract_biomechanical_window(frames, window_size=WINDOW_SIZE)
-            records.append(
-                {
-                    "sequence_id": f"synthetic_{label}_{idx:03d}",
-                    "subject_id": int(idx % 10) + 1,
-                    "label": label,
-                    "source": "synthetic_from_jsonEjemplo",
-                    "active_errors": ",".join(active_errors),
-                    "window": window_matrix,
-                    **summary,
-                }
-            )
-
-    meta = pd.DataFrame(records)
-    X = np.stack(meta.pop("window").to_list()).astype(np.float32)
-    y = meta["label"].to_numpy(dtype=np.int32)
-    return X, y, meta
 
 
 def get_dataset() -> tuple[np.ndarray, np.ndarray, pd.DataFrame, str]:
     try:
         X, y, meta = load_ui_prmd_dataset(
-            base_dir=PROJECT_DIR,
+            base_dir=DATASET_ROOT,
             movement_id=EXERCISE_ID,
             use_segmented=True,
             include_non_segmented=True,
             strict_all=True,
         )
         return X, y, meta, "ui_prmd_kinect_positions"
-    except FileNotFoundError:
-        pass
-
-    try:
-        X, y, meta = load_real_json_dataset(DATASET_ROOT)
-        return X, y, meta, "real_json"
-    except FileNotFoundError:
-        X, y, meta = build_bootstrap_dataset(JSON_EXAMPLE_PATH)
-        return X, y, meta, "synthetic_bootstrap"
+    except RuntimeError:
+        X, y, meta = load_ui_prmd_dataset(
+            base_dir=DATASET_ROOT,
+            movement_id=EXERCISE_ID,
+            use_segmented=True,
+            include_non_segmented=True,
+            strict_all=False,
+        )
+        return X, y, meta, "ui_prmd_kinect_positions_relaxed"
+    except FileNotFoundError as exc:
+        raise FileNotFoundError(
+            f"No se encontraron secuencias m{EXERCISE_ID:02d} en las carpetas UI-PRMD del dataset/ esperadas."
+        ) from exc
 
 
 def fit_scaler(X_train: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
