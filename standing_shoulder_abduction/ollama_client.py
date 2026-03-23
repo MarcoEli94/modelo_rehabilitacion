@@ -138,6 +138,7 @@ def ask_ollama_from_diagnosis(diagnosis: Dict[str, Any]) -> Dict[str, str]:
         "stream": False
     }
 
+    print("3")
     response = requests.post(OLLAMA_URL, json=payload, timeout=90)
     response.raise_for_status()
 
@@ -147,5 +148,6 @@ def ask_ollama_from_diagnosis(diagnosis: Dict[str, Any]) -> Dict[str, str]:
 
 
 def ask_ollama(raw_prediction: Dict[str, Any]) -> Dict[str, str]:
+    print("1")
     diagnosis = prepare_diagnosis(raw_prediction)
     return ask_ollama_from_diagnosis(diagnosis)
