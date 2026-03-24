@@ -7,8 +7,8 @@ from typing import Any, Dict, List
 
 import requests
 
-OLLAMA_URL = os.getenv("OLLAMA_URL", "http://http://52.23.210.184/:11434/api/chat")
-DEFAULT_MODEL_NAME = os.getenv("OLLAMA_MODEL_NAME", "qwen2.5:3b")
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://52.23.210.184/:11434/api/chat")
+DEFAULT_MODEL_NAME = os.getenv("OLLAMA_MODEL_NAME", "qwen2.5:1b")
 
 FEEDBACK_SCHEMA = {
     "type": "object",

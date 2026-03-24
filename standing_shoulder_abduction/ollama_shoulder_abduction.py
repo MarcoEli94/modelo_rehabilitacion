@@ -4,7 +4,7 @@ from typing import Any, Dict, List
 import requests
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
-MODEL_NAME = "qwen2.5:3b"
+MODEL_NAME = "qwen2.5:1b"
 
 # Traducción de errores ya detectados por tu modelo
 DETECTED_ERROR_MAP = {
