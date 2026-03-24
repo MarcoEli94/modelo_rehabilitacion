@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from typing import Any, Dict, List
 
 import requests
@@ -69,7 +70,6 @@ EXERCISE_CONFIG: dict[int, dict[str, Any]] = {
 
 def _get_exercise_config(exercise_id: int) -> dict[str, Any]:
     config = EXERCISE_CONFIG.get(exercise_id)
-    print(config)
     if config is None:
         raise ValueError(f"Ejercicio no soportado para Ollama: {exercise_id}")
     return config
@@ -144,8 +144,9 @@ Restricciones:
 
 
 def ask_ollama_from_diagnosis(diagnosis: Dict[str, Any], exercise_id: int) -> Dict[str, str]:
+    model_name = _get_model_name(exercise_id)
     payload = {
-        "model": _get_model_name(exercise_id),
+        "model": model_name,
         "messages": [
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": build_user_prompt(diagnosis)},
@@ -154,12 +155,35 @@ def ask_ollama_from_diagnosis(diagnosis: Dict[str, Any], exercise_id: int) -> Di
         "stream": False,
     }
 
-    response = requests.post(OLLAMA_URL, json=payload, timeout=90)
-    response.raise_for_status()
+    last_error: Exception | None = None
+    for attempt in range(2):
+        try:
+            response = requests.post(OLLAMA_URL, json=payload, timeout=90)
+            response.raise_for_status()
+            data = response.json()
+            content = data["message"]["content"]
+            return json.loads(content)
+        except requests.HTTPError as exc:
+            last_error = exc
+            status = exc.response.status_code if exc.response is not None else "unknown"
+            body = exc.response.text if exc.response is not None else ""
+            if status == 500 and attempt == 0:
+                # Some runners fail on first generation right after model load.
+                time.sleep(1)
+                continue
+            raise RuntimeError(
+                f"Ollama HTTP {status} (model={model_name}, url={OLLAMA_URL}). Body: {body}"
+            ) from exc
+        except (requests.RequestException, KeyError, ValueError, TypeError, json.JSONDecodeError) as exc:
+            last_error = exc
+            if attempt == 0:
+                time.sleep(1)
+                continue
+            raise RuntimeError(
+                f"Fallo parseando/respondiendo Ollama (model={model_name}, url={OLLAMA_URL}): {exc}"
+            ) from exc
 
-    data = response.json()
-    content = data["message"]["content"]
-    return json.loads(content)
+    raise RuntimeError(f"Fallo consultando Ollama (model={model_name}): {last_error}")
 
 
 def ask_ollama(raw_prediction: Dict[str, Any], exercise_id: int) -> Dict[str, str]:
