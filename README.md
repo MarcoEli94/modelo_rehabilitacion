@@ -119,7 +119,7 @@ pip install numpy pandas scikit-learn joblib tensorflow requests matplotlib seab
 
 ## 10.3 Ollama (opcional para feedback)
 - Tener Ollama activo en `http://localhost:11434`.
-- Modelo por defecto en cliente: `qwen2.5:1.5b`.
+- Modelo por defecto en cliente: `phi3:mini`.
 
 ## 11. Como ejecutar
 

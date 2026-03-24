@@ -15,9 +15,9 @@ services:
       - ollama
     environment:
       - OLLAMA_HOST=http://${OLLAMA_HOST:-ollama}:11434
-      - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME:-qwen2.5:1.5b}
-      - OLLAMA_MODEL_NAME_M07=${OLLAMA_MODEL_NAME_M07:-qwen2.5:1.5b}
-      - OLLAMA_MODEL_NAME_M09=${OLLAMA_MODEL_NAME_M09:-qwen2.5:1.5b}
+      - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME:-phi3:mini}
+      - OLLAMA_MODEL_NAME_M07=${OLLAMA_MODEL_NAME_M07:-phi3:mini}
+      - OLLAMA_MODEL_NAME_M09=${OLLAMA_MODEL_NAME_M09:-phi3:mini}
     entrypoint: ["/bin/sh", "-lc"]
     command:
       - |
@@ -48,9 +48,9 @@ services:
       - .env
     environment:
       - OLLAMA_URL=http://${OLLAMA_HOST:-ollama}:11434/api/chat
-      - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME:-qwen2.5:1.5b}
-      - OLLAMA_MODEL_NAME_M07=${OLLAMA_MODEL_NAME_M07:-qwen2.5:1.5b}
-      - OLLAMA_MODEL_NAME_M09=${OLLAMA_MODEL_NAME_M09:-qwen2.5:1.5b}
+      - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME:-phi3:mini}
+      - OLLAMA_MODEL_NAME_M07=${OLLAMA_MODEL_NAME_M07:-phi3:mini}
+      - OLLAMA_MODEL_NAME_M09=${OLLAMA_MODEL_NAME_M09:-phi3:mini}
     ports:
       - "${API_PORT:-8000}:8000"
 
