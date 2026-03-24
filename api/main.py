@@ -7,6 +7,8 @@ from typing import Any
 import joblib
 from fastapi import FastAPI, HTTPException
 
+from api import ollama_client
+
 app = FastAPI(
     title="API Rehabilitacion",
     version="1.0.0",
@@ -52,19 +54,14 @@ MODELS_CONFIG: dict[int, dict[str, Path]] = {
     },
 }
 
-OLLAMA_CLIENT_MODULE_PATH = (
-    PROJECT_ROOT / "standing_shoulder_internal_external_rotation" / "ollama_client.py"
-)
-
-
 def _parse_exercise_id(payload: dict[str, Any]) -> int:
     raw = payload.get("ejercicio_id")
     if raw is None:
         raw = payload.get("movement_id")
 
-    if raw in ("", None):
-        # Compatibilidad con jsonEjemplo actual donde ejercicio_id puede venir vacio.
-        return 7
+    # if raw in ("", None):
+    #     # Compatibilidad con jsonEjemplo actual donde ejercicio_id puede venir vacio.
+    #     return 7
 
     if isinstance(raw, int):
         return raw
@@ -79,13 +76,12 @@ def _parse_exercise_id(payload: dict[str, Any]) -> int:
     )
 
 
-def _load_runtime(exercise_id: int) -> tuple[Any, Any, dict[str, Any], Any]:
+def _load_runtime(exercise_id: int) -> tuple[Any, Any, dict[str, Any]]:
     conf = MODELS_CONFIG.get(exercise_id)
     if conf is None:
         raise HTTPException(status_code=400, detail="Ejercicio no soportado. Usa m07 o m09.")
 
     module = _load_module(conf["module"], f"movement_module_{exercise_id}")
-    ollama_client = _load_module(OLLAMA_CLIENT_MODULE_PATH, "ollama_client_runtime")
 
     bundle_path = conf["bundle"]
     model_path = conf["model"]
@@ -111,7 +107,7 @@ def _load_runtime(exercise_id: int) -> tuple[Any, Any, dict[str, Any], Any]:
 
     bundle = joblib.load(bundle_path)
     model = tf.keras.models.load_model(model_path)
-    return module, model, bundle, ollama_client
+    return module, model, bundle
 
 
 @app.get("/")
@@ -131,13 +127,13 @@ def ollama_response(payload: dict[str, Any]) -> dict[str, Any]:
         )
 
     exercise_id = _parse_exercise_id(payload)
-    module, model, bundle, ollama_client = _load_runtime(exercise_id)
+    module, model, bundle = _load_runtime(exercise_id)
 
     frames = module.coerce_frames(payload)
     prediction = module.infer_from_window(frames_json=frames, model=model, bundle=bundle)
 
     try:
-        ollama_feedback = ollama_client.ask_ollama(prediction)
+        ollama_feedback = ollama_client.ask_ollama(prediction, exercise_id)
     except Exception as exc:
         raise HTTPException(status_code=502, detail=f"Error consultando Ollama: {exc}") from exc
 
