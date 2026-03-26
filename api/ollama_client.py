@@ -7,8 +7,12 @@ from typing import Any, Dict, List
 
 import requests
 
-OLLAMA_URL = os.getenv("OLLAMA_URL", "http://52.23.210.184/:11434/api/chat")
+# OLLAMA_URL = os.getenv("OLLAMA_URL", "http://127.0.0.1/:11434/api/chat")
+# OLLAMA_URL = os.getenv("OLLAMA_URL", "http://127.0.0.1/:11434/api/chat")
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://127.0.0.1:11434/api/chat")
+
 DEFAULT_MODEL_NAME = os.getenv("OLLAMA_MODEL_NAME", "phi3:mini")
+#DEFAULT_MODEL_NAME = os.getenv("OLLAMA_MODEL_NAME", "tinyllama")
 
 FEEDBACK_SCHEMA = {
     "type": "object",
@@ -124,6 +128,8 @@ def prepare_diagnosis(raw_prediction: Dict[str, Any], exercise_id: int) -> Dict[
     }
 
 
+
+
 def build_user_prompt(diagnosis: Dict[str, Any]) -> str:
     return f"""
 Genera retroalimentacion para este resultado biomecanico:
@@ -152,7 +158,11 @@ def ask_ollama_from_diagnosis(diagnosis: Dict[str, Any], exercise_id: int) -> Di
             {"role": "user", "content": build_user_prompt(diagnosis)},
         ],
         "format": FEEDBACK_SCHEMA,
-        "stream": False,
+        "stream": False,	
+        "keep_alive": -1,
+        "options": {
+        "num_ctx": 2048
+        },
     }
 
     last_error: Exception | None = None
