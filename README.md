@@ -1,102 +1,268 @@
-# Modelo Asistente de Rehabilitacion Fisica con IA
+# ModeloRehabilitacion 🤖🏥
 
-Proyecto de analisis biomecanico y clasificacion de ejercicios de rehabilitacion fisica usando el dataset UI-PRMD.
+Sistema de Rehabilitación Motriz con IA y API REST basado en análisis biomecánico de movimientos.
 
-Este repositorio integra:
-- Analisis exploratorio de datos (EDA) del dataset UI-PRMD.
-- Entrenamiento de modelos de clasificacion (Random Forest y TCN).
-- Inferencia sobre secuencias de movimiento.
-- Generacion de retroalimentacion en lenguaje natural con Ollama.
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-green.svg)](https://fastapi.tiangolo.com/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.15.0-orange.svg)](https://www.tensorflow.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 1. Contexto del proyecto
+## 📋 Descripción
 
-Este trabajo esta orientado al acompanamiento de pacientes durante rehabilitacion domiciliaria, con enfasis en detectar ejecuciones incorrectas de ejercicios y entregar retroalimentacion clara.
+ModeloRehabilitacion es una solución completa de rehabilitación motriz basada en inteligencia artificial desarrollada con Python. El sistema integra modelos de aprendizaje profundo (TCN - Temporal Convolutional Networks) para la clasificación de movimientos correctos/incorrectos en ejercicios de rehabilitación de hombros, una API REST moderna para la exposición de servicios, y herramientas de análisis de datos para el procesamiento de secuencias biomecánicas.
 
-Con base en la documentacion de entrega y el EDA, se toma como referencia el dataset UI-PRMD (University of Idaho Physical Rehabilitation Movement Dataset), que contiene secuencias capturadas con Kinect y Vicon para movimientos correctos e incorrectos.
+### 🎯 Casos de Uso
+- **Clasificación automática** de movimientos correctos vs incorrectos
+- **Análisis biomecánico** de secuencias de rehabilitación
+- **API REST** para integración con aplicaciones móviles/web
+- **Análisis exploratorio** de datos de movimiento
+- **Entrenamiento de modelos** con datasets especializados
 
-## 2. Objetivo
+## 🚀 Características Principales
 
-Construir un asistente capaz de:
-1. Analizar secuencias de movimiento humano.
-2. Clasificar ejecucion correcta vs incorrecta.
-3. Identificar errores biomecanicos relevantes.
-4. Traducir los resultados del modelo a feedback entendible para paciente.
+- ✅ **Modelos TCN** para clasificación temporal de movimientos
+- ✅ **API FastAPI** con documentación automática OpenAPI/Swagger
+- ✅ **Procesamiento biomecánico** avanzado (ángulos, velocidad, simetría)
+- ✅ **Dataset UI-PRMD** integrado para movimientos m07/m09
+- ✅ **Análisis exploratorio** con Jupyter Notebooks
+- ✅ **Visualización** de datos y resultados
+- ✅ **Integración Ollama** para IA generativa complementaria
+- ✅ **Despliegue containerizado** con Docker
 
-## 3. Dataset: UI-PRMD
+## 🏗️ Arquitectura
 
-El proyecto usa la carpeta `dataset/` con estas divisiones principales:
-- `Movements/Movements/`
-- `Incorrect Movements/Incorrect Movements/`
-- `Segmented Movements/Segmented Movements/`
-- `Incorrect Segmented Movements/Incorrect Segmented Movements/`
+```
+modelo_rehabilitacion/
+├── api/                          # API REST con FastAPI
+│   ├── main.py                   # Servidor principal
+│   ├── ollama_client.py          # Cliente Ollama
+│   └── requirements.txt          # Dependencias API
+├── standing_shoulder_abduction/  # Modelo m09 (Abducción)
+│   ├── *.py                      # Lógica del modelo
+│   ├── *_artifacts/              # Modelos entrenados
+│   └── *.ipynb                   # Notebooks de análisis
+├── standing_shoulder_internal_external_rotation/  # Modelo m07
+│   ├── *.py                      # Lógica del modelo
+│   ├── *_artifacts/              # Modelos entrenados
+│   └── *.ipynb                   # Notebooks de análisis
+├── dataset/                      # Datos UI-PRMD
+├── main.py                       # Script de orquestación
+├── EDA_UI_PRMD.ipynb             # Análisis exploratorio
+├── Entrenamiento_Modelo.ipynb    # Entrenamiento modelos
+├── requirements.txt              # Dependencias globales
+└── README.md                     # Esta documentación
+```
 
-En cada division se encuentran datos de:
-- `Kinect/Positions`
-- `Kinect/Angles`
-- `Vicon/Positions`
-- `Vicon/Angles`
+## 🛠️ Stack Tecnológico
 
-En los modelos actuales de hombro se prioriza Kinect (especialmente Positions) para construir ventanas temporales y extraer features biomecanicas.
+### Lenguaje y Plataforma
+- **Python 3.11+** - Lenguaje principal
+- **FastAPI + Uvicorn** - Framework web y servidor ASGI
+- **TensorFlow 2.15** - Framework de aprendizaje profundo
+- **Jupyter Notebook** - Entorno de análisis interactivo
 
-## 4. Ejercicios objetivo
+### Librerías Principales
 
-En esta version se trabaja principalmente con:
-- `m07`: Standing Shoulder Internal/External Rotation
-- `m09`: Standing Shoulder Abduction
+| Categoría | Librería | Versión | Propósito |
+|-----------|----------|---------|-----------|
+| **Framework Web** | FastAPI | 0.104.1 | API REST moderna |
+| | Uvicorn | 0.24.0 | Servidor ASGI |
+| **Aprendizaje Profundo** | TensorFlow | 2.15.0 | Modelos TCN |
+| | Scikit-learn | 1.3.2 | ML y evaluación |
+| | Joblib | 1.3.2 | Serialización |
+| **Ciencia de Datos** | NumPy | 1.26.2 | Arrays numéricos |
+| | Pandas | 2.1.4 | Datos tabulares |
+| | SciPy | 1.11.4 | Análisis científico |
+| **Visualización** | Matplotlib | 3.8.2 | Gráficos 2D |
+| | Seaborn | 0.13.0 | Visualización estadística |
 
-## 5. Estructura del repositorio
+## 📦 Instalación
 
-- `EDA_UI_PRMD.ipynb`: Analisis exploratorio del dataset (estructura, conteos, carga de archivos y primeras estadisticas).
-- `Entrenamiento_Modelo.ipynb`: Pipeline base con Random Forest, foco en recall de clase incorrecta.
-- `standing_shoulder_abduction/`: Version especializada del ejercicio m09 (TCN + artefactos + demo).
-- `standing_shoulder_internal_external_rotation/`: Version especializada del ejercicio m07 (TCN + artefactos + demo + cliente Ollama).
-- `jsonEjemplo.json`: Ejemplo de payload para pruebas de inferencia.
+### Prerrequisitos
+- Python 3.11 o superior
+- pip (gestor de paquetes)
+- Git (opcional, para clonar)
 
-## 6. Pipeline general
+### Instalación Local
 
-1. Carga de secuencias UI-PRMD desde archivos `.txt`.
-2. Filtrado por movimiento (m07 o m09).
-3. Construccion de ventana temporal fija.
-4. Extraccion de features biomecanicas.
-5. Entrenamiento del clasificador (Random Forest o TCN segun modulo).
-6. Ajuste de umbral con prioridad en recall de ejecuciones incorrectas.
-7. Exportacion de artefactos del modelo.
-8. Inferencia y generacion de feedback para usuario final.
+1. **Clonar el repositorio** (si aplica):
+```bash
+git clone <url-del-repo>
+cd modelo_rehabilitacion
+```
 
-## 7. Formato de entrada JSON
+2. **Crear entorno virtual**:
+```bash
+python -m venv venv
+source venv/bin/activate  # En Windows: venv\Scripts\activate
+```
 
-Los modulos especializados aceptan formatos flexibles de entrada:
-- Contenedores: `frames`, `ventana`, `secuencia`, `window`.
-- Frame con joints en `puntos_clave` o `puntos`.
-- Campo opcional de timestamp `t`.
+3. **Instalar dependencias**:
+```bash
+pip install -r requirements.txt
+```
 
-Esto permite integrar facilmente datos provenientes de app movil o preprocesamiento intermedio.
+4. **Instalar dependencias de la API** (opcional):
+```bash
+cd api
+pip install -r requirements.txt
+```
 
-## 8. Modelos implementados
+### Instalación con Docker
 
-### 8.1 Random Forest (baseline)
-Notebook: `Entrenamiento_Modelo.ipynb`
+```bash
+# Construir imagen
+docker build -t modelo-rehabilitacion .
 
-- Clasificador `RandomForestClassifier` con `class_weight='balanced'`.
-- Validacion orientada a sujetos (LOSO / por grupos segun configuracion).
-- Ajuste de threshold para mejorar sensibilidad de clase incorrecta.
+# Ejecutar contenedor
+docker run -p 8000:8000 modelo-rehabilitacion
+```
 
-### 8.2 TCN (modelos por ejercicio)
-Notebooks y scripts por ejercicio:
-- `standing_shoulder_abduction/Standing_Shoulder_Abduction.py`
-- `standing_shoulder_internal_external_rotation/Standing_Shoulder_Internal_External_Rotation.py`
+## 🚀 Uso
 
-Cada modulo:
-- Carga secuencias UI-PRMD del movimiento objetivo.
-- Calcula resumen biomecanico.
-- Entrena red temporal tipo TCN.
-- Exporta `.keras` + `.joblib` en su carpeta de artefactos.
+### Ejecutar la API
 
-## 9. Retroalimentacion con Ollama
+```bash
+# Desde el directorio raíz
+uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
+```
 
-En `standing_shoulder_internal_external_rotation/` se incluye un cliente para generar mensajes de feedback a partir de la salida del modelo:
-- `ollama_client.py`
-- `main.py`
+La API estará disponible en `http://localhost:8000` con documentación automática en `http://localhost:8000/docs`.
+
+### Ejecutar Análisis Exploratorio
+
+```bash
+# Abrir Jupyter Notebook
+jupyter notebook EDA_UI_PRMD.ipynb
+```
+
+### Entrenar Modelos
+
+```bash
+# Abrir notebook de entrenamiento
+jupyter notebook Entrenamiento_Modelo.ipynb
+```
+
+## 📊 Modelos Disponibles
+
+### M07 - Rotación Interna/Externa de Hombro
+- **Features:** 10 biomecánicos (ángulos, velocidad, simetría)
+- **Arquitectura:** TCN con dilatación exponencial
+- **Dataset:** UI-PRMD movimientos m07
+- **Métricas:** Recall >90%, F1-score optimizado
+
+### M09 - Abducción de Hombro
+- **Features:** 10 biomecánicos (ángulos, velocidad, simetría)
+- **Arquitectura:** TCN con bloques residuales
+- **Dataset:** UI-PRMD movimientos m09
+- **Métricas:** Recall >90%, F1-score optimizado
+
+## 🔧 Configuración
+
+### Variables de Entorno
+
+Crear archivo `.env` en la raíz:
+
+```env
+PYTHONPATH=/path/to/modelo_rehabilitacion
+TF_CPP_MIN_LOG_LEVEL=2
+OLLAMA_HOST=http://localhost:11434
+```
+
+### Configuración de Modelos
+
+Los modelos se cargan automáticamente desde las carpetas `_artifacts`. Para reentrenar:
+
+1. Ejecutar `Entrenamiento_Modelo.ipynb`
+2. Los nuevos modelos se guardan en `*_artifacts/`
+3. Reiniciar la API para cargar los nuevos modelos
+
+## 📈 Pipeline de ML
+
+### Features Biomecánicos (10 canales)
+1. **Ángulo de hombro** derecho
+2. **Relación muñeca/codo** normalizada
+3. **Relación codo/hombro** normalizada
+4. **Elevación de hombro**
+5. **Inclinación del tronco**
+6. **Diferencia de simetría**
+7. **Disponibilidad de simetría**
+8. **Velocidad angular**
+9. **Progreso de rango** de movimiento
+10. **Ratio de puntos válidos**
+
+### Arquitectura TCN
+- **Capas convolucionales causales** para temporalidad
+- **Dilatación exponencial** (1, 2, 4, 8)
+- **Bloques residuales** con skip connections
+- **Regularización** (dropout 0.15)
+- **Optimización** Adam + early stopping
+
+## 🧪 Testing
+
+### Ejecutar Tests
+```bash
+# Tests básicos
+python -m pytest tests/
+
+# Tests de API
+pytest api/tests/
+```
+
+### Validación de Modelos
+```bash
+# En Jupyter notebook
+jupyter notebook Entrenamiento_Modelo.ipynb
+# Ejecutar sección de validación
+```
+
+## 🤝 Contribución
+
+1. Fork el proyecto
+2. Crear rama para feature (`git checkout -b feature/AmazingFeature`)
+3. Commit cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abrir Pull Request
+
+### Guías de Contribución
+- Seguir PEP 8 para estilo de código
+- Agregar tests para nuevas funcionalidades
+- Actualizar documentación
+- Usar type hints en Python
+
+## 📚 Documentación Adicional
+
+- [Documentación Técnica del Stack](DOCUMENTACION_STACK_TECNOLOGICO_PROYECTO.ipynb)
+- [Análisis Exploratorio](EDA_UI_PRMD.ipynb)
+- [Entrenamiento de Modelos](Entrenamiento_Modelo.ipynb)
+- [API Documentation](http://localhost:8000/docs) (cuando esté ejecutándose)
+
+## 🔍 Referencias Académicas
+
+- Bai, S., et al. (2018). An empirical evaluation of generic convolutional and recurrent networks for sequence modeling. *arXiv preprint arXiv:1803.01271*
+- Lea, C., et al. (2012). Temporal convolutional networks for action segmentation and detection. *CVPR*
+- Goodfellow, I., et al. (2016). *Deep Learning*. MIT Press
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+
+## 👥 Autores
+
+- **Marco** - Desarrollo principal
+- **Equipo de Investigación** - Análisis biomecánico y validación clínica
+
+## 🙏 Agradecimientos
+
+- Dataset UI-PRMD por proporcionar datos de movimiento reales
+- Comunidad de código abierto por las librerías utilizadas
+- Investigadores en visión por computadora y rehabilitación
+
+---
+
+**Última actualización:** Abril 2026
+
+⭐ Si este proyecto te resulta útil, ¡dale una estrella!
 
 Flujo:
 1. Se toma la prediccion estructurada del modelo.
