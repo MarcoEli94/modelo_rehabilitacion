@@ -966,6 +966,8 @@ def train_and_export() -> dict[str, Any]:
     threshold, _ = tune_threshold(y, y_all_proba, target_recall=TARGET_RECALL)
     y_val_proba = model.predict(X_val_scaled, verbose=0).reshape(-1)
     y_val_pred = (y_val_proba >= threshold).astype(int)
+    cm = confusion_matrix(y_val, y_val_pred)
+    tn, fp, fn, tp = cm.ravel()
 
     metrics = {
         "dataset_source": dataset_source,
@@ -979,6 +981,10 @@ def train_and_export() -> dict[str, Any]:
         "precision_incorrect": round(precision_score(y_val, y_val_pred, zero_division=0), 4),
         "recall_incorrect": round(recall_score(y_val, y_val_pred, zero_division=0), 4),
         "f1_incorrect": round(f1_score(y_val, y_val_pred, zero_division=0), 4),
+        "true_negatives_incorrect": int(tn),
+        "false_positives_incorrect": int(fp),
+        "false_negatives_incorrect": int(fn),
+        "true_positives_incorrect": int(tp),
         "roc_auc": round(roc_auc_score(y_val, y_val_proba), 4),
         "val_loss_min": round(float(np.min(history.history["val_loss"])), 4),
     }
@@ -1009,9 +1015,10 @@ def train_and_export() -> dict[str, Any]:
     print(f"Recall incorrecto    : {metrics['recall_incorrect']:.4f}")
     print(f"Precision incorrecto : {metrics['precision_incorrect']:.4f}")
     print(f"F1 incorrecto        : {metrics['f1_incorrect']:.4f}")
+    print(f"TN={tn}  FP={fp}  FN={fn}  TP={tp}")
     print(f"ROC-AUC              : {metrics['roc_auc']:.4f}")
     print("Matriz de confusión:")
-    print(confusion_matrix(y_val, y_val_pred))
+    print(cm)
     print("Reporte de clasificación:")
     print(classification_report(y_val, y_val_pred, target_names=["correcta", "incorrecta"], digits=4))
     print("Demo de inferencia:")
