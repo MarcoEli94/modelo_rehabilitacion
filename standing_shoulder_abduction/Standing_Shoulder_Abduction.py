@@ -303,23 +303,23 @@ def generate_temporal_window_from_example(
 
     target_angle = float(rng.uniform(82.0, 100.0))
     if "low_range" in active_errors:
-        target_angle = float(rng.uniform(35.0, 68.0))
+        target_angle = float(rng.uniform(75.0, 85.0))  # Errores leves
 
     trunk_lean = float(rng.uniform(0.0, 0.018))
     if "trunk_lean" in active_errors:
-        trunk_lean = float(rng.uniform(0.045, 0.10))
+        trunk_lean = float(rng.uniform(0.01, 0.03))  # Errores leves
 
     shrug_gain = float(rng.uniform(0.0, 0.012))
     if "shrug" in active_errors:
-        shrug_gain = float(rng.uniform(0.035, 0.075))
+        shrug_gain = float(rng.uniform(0.01, 0.025))  # Errores leves
 
     wrist_drop_gain = float(rng.uniform(-0.005, 0.008))
     if "wrist_drop" in active_errors:
-        wrist_drop_gain = float(rng.uniform(0.03, 0.08))
+        wrist_drop_gain = float(rng.uniform(0.01, 0.025))  # Errores leves
 
     left_scale = 1.0
     if "asymmetry" in active_errors:
-        left_scale = float(rng.uniform(0.45, 0.8))
+        left_scale = float(rng.uniform(0.85, 0.95))  # Errores leves
 
     noise_std = 0.005 if not incorrect else 0.012
 

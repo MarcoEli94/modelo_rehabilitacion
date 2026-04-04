@@ -41,8 +41,8 @@ def make_payloads() -> None:
         exercise_dir.mkdir(parents=True, exist_ok=True)
         rng = np.random.default_rng(42 + exercise_id)
 
-        for idx in range(30):
-            incorrect = idx < 15
+        for idx in range(100):
+            incorrect = idx < 50
             frames, errors = module.generate_temporal_window_from_example(
                 payload=example,
                 rng=rng,
@@ -56,11 +56,11 @@ def make_payloads() -> None:
             if idx % 2 == 0:
                 payload["movement_id"] = exercise_id
 
-            output_path = exercise_dir / f"example_{idx+1:02d}.json"
+            output_path = exercise_dir / f"example_{idx+1:03d}.json"
             with output_path.open("w", encoding="utf-8") as handle:
                 json.dump(payload, handle, ensure_ascii=False, indent=2)
 
-        print(f"Generados 30 ejemplos para m{exercise_id:02d}: {exercise_dir}")
+        print(f"Generados 100 ejemplos para m{exercise_id:02d}: {exercise_dir}")
 
 
 if __name__ == "__main__":
