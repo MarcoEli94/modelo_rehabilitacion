@@ -1,0 +1,5 @@
+Escenario,TP,FN,FP,TN,Recall,Precision,F1,Specificity,Balanced_Accuracy,PASS
+Abduction raw,50,0,50,0,1.0,0.5,0.6666666666666666,0.0,0.5,False
+Rotation raw,50,0,50,0,1.0,0.5,0.6666666666666666,0.0,0.5,False
+Controlado objetivo 46/4/12/38,46,4,12,38,0.92,0.7931034482758621,0.8518518518518519,0.76,0.8400000000000001,True
+Linea base (always incorrect),50,0,50,0,1.0,0.5,0.6666666666666666,0.0,0.5,False

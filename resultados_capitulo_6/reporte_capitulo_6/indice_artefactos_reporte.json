@@ -1,0 +1,21 @@
+{
+  "tablas_csv": [
+    "tabla_6_10_amenazas_validez.csv",
+    "tabla_6_11_etica_sesgos.csv",
+    "tabla_6_1_trazabilidad_mvp_lean.csv",
+    "tabla_6_2_definicion_metricas.csv",
+    "tabla_6_3_protocolo_reproducible.csv",
+    "tabla_6_4_particion_aislamiento.csv",
+    "tabla_6_5_resultados_escenarios.csv",
+    "tabla_6_6_intervalos_confianza.csv",
+    "tabla_6_7_prueba_mcnemar.csv",
+    "tabla_6_8_edge_cases.csv",
+    "tabla_6_9_cumplimiento_final.csv"
+  ],
+  "figuras_png": [
+    "figura_6_1_hist_probabilidades.png",
+    "figura_6_2_matrices_confusion.png",
+    "figura_6_3_barras_metricas.png",
+    "figura_6_4_robustez.png"
+  ]
+}

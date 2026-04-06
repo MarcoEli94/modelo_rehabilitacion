@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import time
 from typing import Any, Dict, List
 
 import requests
+
+logger = logging.getLogger("rehab_api.ollama")
 
 # OLLAMA_URL = os.getenv("OLLAMA_URL", "http://127.0.0.1/:11434/api/chat")
 # OLLAMA_URL = os.getenv("OLLAMA_URL", "http://127.0.0.1/:11434/api/chat")
@@ -165,12 +168,14 @@ def ask_ollama_from_diagnosis(diagnosis: Dict[str, Any], exercise_id: int) -> Di
         },
     }
 
+    logger.info("Enviando a Ollama model=%s url=%s", model_name, OLLAMA_URL)
     last_error: Exception | None = None
     for attempt in range(2):
         try:
             response = requests.post(OLLAMA_URL, json=payload, timeout=90)
             response.raise_for_status()
             data = response.json()
+            logger.info("Respuesta cruda Ollama: %s", data)
             content = data["message"]["content"]
             return json.loads(content)
         except requests.HTTPError as exc:

@@ -1,0 +1,5 @@
+Metrica,Valor,Umbral,Decision
+Recall,0.92,0.9,PASS
+Precision,0.7931034482758621,0.75,PASS
+F1,0.8518518518518519,0.8,PASS
+Specificity,0.76,0.7,PASS

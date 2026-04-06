@@ -37,6 +37,11 @@ modelo_rehabilitacion/
 │   ├── main.py                   # Servidor principal
 │   ├── ollama_client.py          # Cliente Ollama
 │   └── requirements.txt          # Dependencias API
+├── docs/                         # Documentación y anexos
+│   ├── DOCUMENTACION_STACK_TECNOLOGICO_PROYECTO.ipynb
+│   └── EDA_UI_PRMD.pdf
+├── models/
+│   └── exports/                  # Exportaciones legacy de modelos
 ├── standing_shoulder_abduction/  # Modelo m09 (Abducción)
 │   ├── *.py                      # Lógica del modelo
 │   ├── *_artifacts/              # Modelos entrenados
@@ -232,7 +237,7 @@ jupyter notebook Entrenamiento_Modelo.ipynb
 
 ## 📚 Documentación Adicional
 
-- [Documentación Técnica del Stack](DOCUMENTACION_STACK_TECNOLOGICO_PROYECTO.ipynb)
+- [Documentación Técnica del Stack](docs/DOCUMENTACION_STACK_TECNOLOGICO_PROYECTO.ipynb)
 - [Análisis Exploratorio](EDA_UI_PRMD.ipynb)
 - [Entrenamiento de Modelos](Entrenamiento_Modelo.ipynb)
 - [API Documentation](http://localhost:8000/docs) (cuando esté ejecutándose)

@@ -1,0 +1,6 @@
+Metrica,Formula,Interpretacion,Umbral
+Recall,TP/(TP+FN),Capacidad de detectar ejecuciones incorrectas,0.9
+Precision,TP/(TP+FP),Confiabilidad de alertas de error,0.75
+F1,2*P*R/(P+R),Balance entre precision y recall,0.8
+Specificity,TN/(TN+FP),Capacidad de reconocer ejecuciones correctas,0.7
+Balanced_Accuracy,(Recall+Specificity)/2,Balance global entre clases,

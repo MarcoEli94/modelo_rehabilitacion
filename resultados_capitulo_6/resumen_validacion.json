@@ -1,0 +1,39 @@
+{
+  "criterio_exito": {
+    "recall_min": 0.9,
+    "precision_min": 0.75,
+    "f1_min": 0.8,
+    "specificity_min": 0.7
+  },
+  "escenario_controlado": {
+    "TP": 46,
+    "FN": 4,
+    "FP": 12,
+    "TN": 38,
+    "Recall": 0.92,
+    "Precision": 0.7931034482758621,
+    "F1": 0.8518518518518519,
+    "Specificity": 0.76,
+    "Balanced_Accuracy": 0.8400000000000001
+  },
+  "linea_base": {
+    "TP": 50,
+    "FN": 0,
+    "FP": 50,
+    "TN": 0,
+    "Recall": 1.0,
+    "Precision": 0.5,
+    "F1": 0.6666666666666666,
+    "Specificity": 0.0,
+    "Balanced_Accuracy": 0.5
+  },
+  "ic95_recall_controlado": [
+    0.8367254174397032,
+    0.9818262987012987
+  ],
+  "ic95_precision_controlado": [
+    0.6842105263157895,
+    0.8909090909090909
+  ],
+  "decision_final": "PASS"
+}

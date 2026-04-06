@@ -1,0 +1,5 @@
+Criterio,Estado,Evidencia
+Minimizacion de datos,OK,Solo variables biomecanicas necesarias
+Privacidad en logs,OK,Sin datos personales identificables
+Analisis de sesgos,Pendiente/Parcial,Depende de disponibilidad de subgrupos
+Supervision humana,OK,"Uso asistido, no diagnostico autonomo"

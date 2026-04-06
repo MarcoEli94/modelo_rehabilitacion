@@ -1,0 +1,5 @@
+Objetivo_MVP,Metrica_LEAN_Cap4,Metrica_Cap6,Umbral,Criterio
+Deteccion temprana,LEAN_METRIC_01,Recall,0.9,Recall >= umbral
+Alertas utiles,LEAN_METRIC_02,Precision,0.75,Precision >= umbral
+Balance clinico,LEAN_METRIC_03,F1,0.8,F1 >= umbral
+No penalizar ejecucion correcta,LEAN_METRIC_04,Specificity,0.7,Specificity >= umbral

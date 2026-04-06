@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import logging
 from pathlib import Path
 from typing import Any
 
@@ -8,6 +9,12 @@ import joblib
 from fastapi import FastAPI, HTTPException
 
 from api import ollama_client
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+logger = logging.getLogger("rehab_api")
 
 app = FastAPI(
     title="API Rehabilitacion",
@@ -131,10 +138,13 @@ def ollama_response(payload: dict[str, Any]) -> dict[str, Any]:
 
     frames = module.coerce_frames(payload)
     prediction = module.infer_from_window(frames_json=frames, model=model, bundle=bundle)
+    logger.info("[exercise_id=%s] Prediction: %s", exercise_id, prediction)
 
     try:
         ollama_feedback = ollama_client.ask_ollama(prediction, exercise_id)
     except Exception as exc:
+        logger.error("[exercise_id=%s] Error consultando Ollama: %s", exercise_id, exc)
         raise HTTPException(status_code=502, detail=f"Error consultando Ollama: {exc}") from exc
 
+    logger.info(ollama_feedback)
     return ollama_feedback

@@ -1,0 +1,4 @@
+Mecanismo,Configuracion,Objetivo
+Validacion cruzada,"StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED)",Mantener proporcion de clases por fold
+Aislamiento test set,No ajuste de hiperparametros en test,Evitar leakage
+Baseline,always incorrect,Punto de comparacion robusto

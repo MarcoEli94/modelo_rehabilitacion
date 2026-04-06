@@ -1,0 +1,9 @@
+Paso,Descripcion,Artefacto
+1,Configurar semilla y entorno,"SEED, versiones librerias"
+2,Cargar modelos y bundles m07/m09,"bundle_abd, bundle_rot"
+3,Cargar muestra JSON y etiquetar,"y_true_abd, y_true_rot"
+4,Inferencia y probabilidades,"y_prob_abd, y_prob_rot"
+5,Evaluar escenarios y baseline,report_df
+6,Calcular IC 95% bootstrap,"recall_ci, precision_ci"
+7,Prueba estadistica pareada,"n01, n10, chi2"
+8,Robustez y edge cases,"robust_rows, edge_cases"
