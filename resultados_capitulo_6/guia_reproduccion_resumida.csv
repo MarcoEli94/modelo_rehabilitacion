@@ -1,0 +1,6 @@
+Paso,Accion,Salida esperada
+1,"Ejecutar secciones 1-3 (entorno, parametros, carga)",Modelos y bundles cargados
+2,Ejecutar seccion 4 (evaluacion),"y_true, y_prob, diagnosticos"
+3,Ejecutar seccion 6 (metricas),threshold optimo y PASS/FAIL
+4,Ejecutar comparativa de modos,TCN_only vs Recovery
+5,Ejecutar guardado de artefactos,CSV/JSON/figuras para reporte

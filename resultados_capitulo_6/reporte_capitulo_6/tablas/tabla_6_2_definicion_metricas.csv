@@ -4,3 +4,5 @@ Precision,TP/(TP+FP),Confiabilidad de alertas de error,0.75
 F1,2*P*R/(P+R),Balance entre precision y recall,0.8
 Specificity,TN/(TN+FP),Capacidad de reconocer ejecuciones correctas,0.7
 Balanced_Accuracy,(Recall+Specificity)/2,Balance global entre clases,
+ROC_AUC,AUC(ROC),Discriminacion global independiente del umbral,
+PR_AUC,Average Precision,Calidad de ranking para clase positiva,

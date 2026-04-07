@@ -1,0 +1,2 @@
+selected_threshold,selection_reason,roc_auc_eval,pr_auc_eval,pass_mvp_at_selected_threshold
+0.05,sin umbral PASS total: seleccionado por max Balanced_Accuracy/F1,0.5,0.5,False

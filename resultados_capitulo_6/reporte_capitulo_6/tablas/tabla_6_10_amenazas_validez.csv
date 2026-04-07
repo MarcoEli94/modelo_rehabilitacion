@@ -1,4 +1,4 @@
 Tipo_validez,Riesgo,Mitigacion
 Interna,Overfitting por ajuste iterativo,Aislamiento de test set y baseline
-Externa,Generalizacion limitada a nuevos contextos,Pruebas de robustez y ampliacion de muestra
+Externa,Generalizacion limitada a nuevos contextos,Cobertura de m07/m09 y ampliacion de muestra
 Constructo,Metrica no alineada con objetivo MVP,Trazabilidad LEAN -> metrica

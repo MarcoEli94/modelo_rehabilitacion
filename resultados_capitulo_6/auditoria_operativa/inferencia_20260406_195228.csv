@@ -1,0 +1,2 @@
+exercise_id,exercise_code,sequence_key,num_frames,exercise,movement_id,label,classification,probability_incorrect,threshold,severity,errors_detected,biomechanical_summary
+9,m09,secuencia,100,Standing Shoulder Abduction,9,0,correcta,0.0,0.474,leve,[],"{'max_shoulder_angle_deg': 178.5663, 'mean_shoulder_angle_deg': 152.002, 'trunk_tilt_p95_deg': 144.9952, 'shoulder_elevation_p95': 0.4349, 'symmetry_p95_deg': 0.0, 'velocity_std_deg': 5.9704, 'wrist_above_elbow_mean': 0.1955, 'valid_points_ratio_mean': 0.8333}"

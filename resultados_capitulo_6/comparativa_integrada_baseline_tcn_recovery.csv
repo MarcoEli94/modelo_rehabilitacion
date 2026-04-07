@@ -1,0 +1,4 @@
+Mode,Recall,Precision,F1,Specificity,Balanced_Accuracy,PASS,ROC_AUC,PR_AUC,Threshold,Selection_Reason
+Baseline,1.0,0.5,0.6666666666666666,0.0,0.5,False,,,,baseline determinista
+TCN_only,1.0,0.5,0.6666666666666666,0.0,0.5,False,0.5,0.5,0.05,sin PASS total: max Balanced_Accuracy/F1
+Recovery_OOF_LogReg,1.0,0.99009900990099,0.9950248756218906,0.99,0.995,True,0.9999,0.99990099009901,0.1,cumple MVP + max F1

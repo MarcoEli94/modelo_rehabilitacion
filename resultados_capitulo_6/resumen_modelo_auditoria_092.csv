@@ -1,0 +1,2 @@
+estado_auditoria,modo_modelo,objetivo_recall,umbral_seleccionado,recall_modelo,precision_modelo,f1_modelo,especificidad_modelo,accuracy_balanceada_modelo,cumplimiento_mvp,fuente_metricas,observaciones
+pendiente_regularizacion,Recovery_OOF_LogReg,0.92,0.915,0.93,1.0,0.9637305699481865,1.0,0.9650000000000001,True,punto operativo del modelo seleccionado,labels_manifest.csv contiene etiquetas pendientes

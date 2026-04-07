@@ -1,0 +1,24 @@
+{
+  "exercise_id": 9,
+  "exercise_code": "m09",
+  "sequence_key": "secuencia",
+  "num_frames": 100,
+  "exercise": "Standing Shoulder Abduction",
+  "movement_id": 9,
+  "label": 0,
+  "classification": "correcta",
+  "probability_incorrect": 0.0,
+  "threshold": 0.474,
+  "severity": "leve",
+  "errors_detected": [],
+  "biomechanical_summary": {
+    "max_shoulder_angle_deg": 178.5663,
+    "mean_shoulder_angle_deg": 152.002,
+    "trunk_tilt_p95_deg": 144.9952,
+    "shoulder_elevation_p95": 0.4349,
+    "symmetry_p95_deg": 0.0,
+    "velocity_std_deg": 5.9704,
+    "wrist_above_elbow_mean": 0.1955,
+    "valid_points_ratio_mean": 0.8333
+  }
+}

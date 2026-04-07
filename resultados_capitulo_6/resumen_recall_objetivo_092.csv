@@ -1,0 +1,2 @@
+target_recall,selected_threshold,selection_reason,Recall,Precision,F1,Specificity,Balanced_Accuracy,PASS,mode_used
+0.92,0.915,umbral PASS con recall mas cercano a 0.92,0.93,1.0,0.9637305699481865,1.0,0.9650000000000001,True,Recovery_OOF_LogReg

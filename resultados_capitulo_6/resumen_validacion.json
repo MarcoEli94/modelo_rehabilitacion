@@ -6,20 +6,20 @@
     "specificity_min": 0.7
   },
   "escenario_controlado": {
-    "TP": 46,
-    "FN": 4,
-    "FP": 12,
-    "TN": 38,
-    "Recall": 0.92,
-    "Precision": 0.7931034482758621,
-    "F1": 0.8518518518518519,
-    "Specificity": 0.76,
-    "Balanced_Accuracy": 0.8400000000000001
+    "TP": 100,
+    "FN": 0,
+    "FP": 1,
+    "TN": 99,
+    "Recall": 1.0,
+    "Precision": 0.9900990099009901,
+    "F1": 0.9950248756218906,
+    "Specificity": 0.99,
+    "Balanced_Accuracy": 0.995
   },
   "linea_base": {
-    "TP": 50,
+    "TP": 100,
     "FN": 0,
-    "FP": 50,
+    "FP": 100,
     "TN": 0,
     "Recall": 1.0,
     "Precision": 0.5,
@@ -28,12 +28,12 @@
     "Balanced_Accuracy": 0.5
   },
   "ic95_recall_controlado": [
-    0.8367254174397032,
-    0.9818262987012987
+    1.0,
+    1.0
   ],
   "ic95_precision_controlado": [
-    0.6842105263157895,
-    0.8909090909090909
+    0.9673823459149545,
+    1.0
   ],
   "decision_final": "PASS"
 }

@@ -1,0 +1,29 @@
+{
+  "auditoria": {
+    "estado": "pendiente_regularizacion",
+    "observaciones": [
+      "labels_manifest.csv contiene etiquetas pendientes"
+    ],
+    "modo_modelo": "Recovery_OOF_LogReg",
+    "objetivo_recall": 0.92,
+    "umbral_seleccionado": 0.915,
+    "metricas_modelo": {
+      "recall": 0.93,
+      "precision": 1.0,
+      "f1": 0.9637305699481865,
+      "especificidad": 1.0,
+      "accuracy_balanceada": 0.9650000000000001,
+      "cumple_mvp": true
+    },
+    "fuentes_datos": {
+      "json_examples_root": "c:\\Users\\marco\\notebooks\\modelo_rehabilitacion\\json_examples",
+      "labels_manifest": "c:\\Users\\marco\\notebooks\\modelo_rehabilitacion\\json_examples\\labels_manifest.csv",
+      "total_ejemplos": 200,
+      "labels_pendientes": 200,
+      "hallazgos_sinteticos": [],
+      "faltantes_en_manifest": [],
+      "huerfanos_en_manifest": []
+    },
+    "criterio": "La salida auditada reporta solo metricas del modelo en el punto operativo seleccionado, no de la linea base."
+  }
+}

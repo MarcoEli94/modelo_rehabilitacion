@@ -1,0 +1,6 @@
+Discusion de resultados frente a baseline
+
+1. El modo TCN_only no supera la linea base en discriminacion util: Precision=0.5000, F1=0.6667, Specificity=0.0000.
+2. El modo Recovery_OOF_LogReg mejora sustancialmente respecto a baseline: Delta Precision=0.4901, Delta F1=0.3284, Delta Specificity=0.9900.
+3. Bajo el criterio MVP, Recovery_OOF_LogReg cumple con Recall=1.0000, Precision=0.9901, F1=0.9950, Specificity=0.9900.
+4. Implicacion practica: para reproduccion y entrega auditada, usar RECOVERY_MODE='auto' y reportar comparativa de modos.
